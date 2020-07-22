@@ -1,0 +1,57 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <vector>
+#include <math.h>
+#include <algorithm>
+
+using namespace std;
+
+struct point {
+	double x, y;
+};
+
+// расстояние от центтра координат
+double rad(point b) {
+	double r;
+	r = pow((pow(b.x, 2) + pow(b.y, 2)), 0.5);
+	return r;
+}
+
+
+int main() {
+	vector <point> coord;
+	point tochka;
+	string keyboard;
+	cout << "enter the coordinates in the format (x+i*y) , end with the symbol /" << endl;
+
+	for (; 1;) {
+		cin >> keyboard;
+		if (keyboard != "/")
+		{
+			tochka.x = stod(keyboard.substr(1, keyboard.find("+") - 1));
+			tochka.y = stod(keyboard.substr(keyboard.find("*") + 1, keyboard.find(")") - keyboard.find("*") - 1));
+			coord.push_back(tochka);
+		}
+		else
+		{
+			break;
+		}
+	}
+	// количество точек, которые должны быть внутри круга
+	int polovina = coord.size() * 0.5;
+	//расстояния от центра координат
+	vector<double> rasst;
+	double r = 0;
+
+	for (auto it = begin(coord); it != end(coord); ++it) {
+		// r = rad(coord.begin+it);
+		r = rad(*it);
+		rasst.push_back(r);
+	}
+	sort(rasst.begin(), rasst.end());
+	auto it = begin(coord);
+	it += polovina;
+	cout << "min radius " << rasst[polovina - 1] << endl;
+	return 0;
+}
